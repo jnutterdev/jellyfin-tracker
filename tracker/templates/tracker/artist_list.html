@@ -1,0 +1,10 @@
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'tracker/style.css' %}">
+
+<h1>All artists</h1>
+<ul>
+{% for artist in artist_list %}
+    <li>Name: {{ artist.name }}</li>
+{% endfor %}
+</ul>
