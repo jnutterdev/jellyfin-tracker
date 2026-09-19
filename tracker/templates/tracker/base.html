@@ -17,8 +17,8 @@
 </head>
 <body>
 	<header class="site-header">
-		<span class="site-title">Jellyfin Tracker</span>
-		<nav class="site-nav">
+		<a class="site-title" href="{% url 'artist_list' %}">Jellyfin Tracker</a>
+		<nav class="site-nav" aria-label="Primary">
 			<a href="{% url 'artist_list' %}">Artists</a>
 			<a href="{% url 'album_list' %}">Albums</a>
 		</nav>
@@ -27,7 +27,7 @@
 	<div class="menu-bar">
 		<form action="{% url 'sync' %}" method="post">
 			{% csrf_token %}
-			<button type="submit"><i class="fa-solid fa-rotate"></i> Sync</button>
+			<button type="submit"><i class="fa-solid fa-rotate" aria-hidden="true"></i> Sync</button>
 		</form>
 	</div>
 

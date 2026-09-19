@@ -68,6 +68,12 @@ a:hover {
     font-family: var(--font-heading);
     font-size: 1.25rem;
     font-weight: 600;
+    color: var(--color-text);
+}
+
+.site-header .site-title:hover {
+    color: var(--color-mauve);
+    text-decoration: underline;
 }
 
 .site-nav {
@@ -160,6 +166,7 @@ main h1 {
 .search-form input[type="text"]:focus {
     outline: none;
     border-color: var(--color-mauve);
+    box-shadow: 0 0 0 3px rgb(203 166 247 / 40%);
 }
 
 ul {
