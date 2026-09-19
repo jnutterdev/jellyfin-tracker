@@ -1,6 +1,13 @@
-<h1>All artists</h1>
-{% for album in album_list %}
-<ul>
-    <li>Name: {{ album.name }}</li>
-</ul>
-{% endfor %}
+{% extends "tracker/base.html" %}
+
+{% block content %}
+    <h1>All artists</h1>
+     <ul>
+    {% for album in album_list %}
+        <li>{{ album }}</li>
+    {% endfor %}
+    </ul>
+
+    {% include "tracker/pagination.html#pagination" %}
+
+{% endblock content %}

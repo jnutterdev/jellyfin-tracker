@@ -11,7 +11,7 @@ def sync_artists() -> None:
         for item in response["Items"]:
             Artist.objects.update_or_create(
                 jellyfin_id=item["Id"],
-                defaults={"name": item["Name"]},
+                defaults={"name": item["Name"].strip()},
             )
         start_index += limit
         if start_index >= response["TotalRecordCount"]:
@@ -40,7 +40,7 @@ def sync_albums() -> None:
             Album.objects.update_or_create(
                 jellyfin_id=item["Id"],
                 defaults={
-                    "name": item["Name"],
+                    "name": item["Name"].strip(),
                     "artist": artist,
                     "production_year": item.get("ProductionYear"),
                     "date_added": item.get("DateCreated"),

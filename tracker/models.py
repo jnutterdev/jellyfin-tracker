@@ -1,6 +1,7 @@
 import uuid
 
 from django.db import models
+from django.db.models.functions import Lower
 
 
 # Create your models here.
@@ -11,6 +12,9 @@ class Artist(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = [Lower("name")]
 
     def __str__(self):
         return self.name
@@ -26,6 +30,9 @@ class Album(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = [Lower("artist__name"), Lower("name")]
 
     def __str__(self):
         return f"{self.artist} - {self.name}"

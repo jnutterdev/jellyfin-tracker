@@ -6,10 +6,10 @@ from .models import Album, Artist
 
 # Create your views here.
 class ArtistListView(ListView):
+    paginate_by = 20
     model = Artist
-    template_name = "artist_list.html"
 
 
 class AlbumListView(ListView):
+    paginate_by = 20
     model = Album
-    template_name = "album_list.html"
