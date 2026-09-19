@@ -1,8 +1,9 @@
 from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
-from django.views.generic import ListView
+from django.views.generic import DetailView, ListView
 from django_q.tasks import async_task
 
+from .jellyfin_sync import sync_tracks_for_album
 from .models import Album, Artist
 
 
@@ -28,6 +29,16 @@ class AlbumListView(ListView):
         if query:
             queryset = queryset.filter(name__icontains=query)
         return queryset
+
+
+class AlbumDetailView(DetailView):
+    model = Album
+
+    def get_object(self, queryset=None):
+        album = super().get_object(queryset)
+        if not album.tracks.exists():
+            sync_tracks_for_album(album)
+        return album
 
 
 @require_POST

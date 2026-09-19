@@ -1,0 +1,12 @@
+{% extends "tracker/base.html" %}
+
+{% block content %}
+<h1>{{ album }}</h1>
+<ul>
+{% for track in album.tracks.all %}
+    <li>
+        {{ track }}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}

@@ -36,3 +36,23 @@ class Album(models.Model):
 
     def __str__(self):
         return f"{self.artist} - {self.name}"
+
+
+class Track(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    jellyfin_id = models.CharField(max_length=64, unique=True, db_index=True)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name="tracks")
+    name = models.CharField(max_length=255)
+    track_number = models.IntegerField(null=True, blank=True)
+    disc_number = models.IntegerField(null=True, blank=True)
+    duration_seconds = models.IntegerField(null=True, blank=True)
+    container = models.CharField(max_length=16, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["disc_number", "track_number"]
+
+    def __str__(self):
+        return self.name

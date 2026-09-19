@@ -13,7 +13,11 @@
 
     <ul>
     {% for album in album_list %}
-        <li>{{ album }}</li>
+        <li>
+            <a href="{% url 'album_detail' album.pk %}">
+                {{ album }}
+            </a>
+        </li>
     {% empty %}
          <li>
              <p>No album by that name.</p>

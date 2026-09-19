@@ -1,5 +1,5 @@
 from .jellyfin_client import fetch_items
-from .models import Album, Artist
+from .models import Album, Artist, Track
 
 
 def sync_artists() -> None:
@@ -55,3 +55,24 @@ def sync_albums() -> None:
 def sync_all() -> None:
     sync_artists()
     sync_albums()
+
+
+def sync_tracks_for_album(album: Album) -> None:
+    fetched_items = fetch_items("Audio", 0, 100, parent_id=album.jellyfin_id)
+
+    for item in fetched_items["Items"]:
+        run_time_ticks = item.get("RunTimeTicks")
+        duration_seconds = (
+            run_time_ticks // 10_000_000 if item.get("RunTimeTicks") else None
+        )
+        Track.objects.update_or_create(
+            jellyfin_id=item["Id"],
+            defaults={
+                "disc_number": item.get("ParentIndexNumber"),
+                "track_number": item.get("IndexNumber"),
+                "album": album,
+                "name": item.get("Name"),
+                "duration_seconds": duration_seconds,
+                "container": item.get("Container"),
+            },
+        )
