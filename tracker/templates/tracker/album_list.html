@@ -15,7 +15,9 @@
     {% for album in album_list %}
         <li>{{ album }}</li>
     {% empty %}
-         <li>No album by that name.</li>
+         <li>
+             <p>No album by that name.</p>
+         </li>
     {% endfor %}
     </ul>
 {% endblock content %}

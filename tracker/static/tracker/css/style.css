@@ -176,6 +176,10 @@ li {
     background-color: var(--color-surface0);
     border-radius: var(--radius);
     text-transform: capitalize;
+
+    p {
+        text-transform: none;
+    }
 }
 
 li:nth-child(odd) {
