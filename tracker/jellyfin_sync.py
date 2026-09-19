@@ -32,7 +32,7 @@ def sync_albums() -> None:
             if artist_list:
                 artist = Artist.objects.get(jellyfin_id=artist_list[0]["Id"])
             else:
-                artist, created = Artist.objects.get_or_create(
+                artist, _ = Artist.objects.get_or_create(
                     jellyfin_id="unknown",
                     defaults={"name": "Unknown Artist"},
                 )
