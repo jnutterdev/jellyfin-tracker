@@ -50,3 +50,8 @@ def sync_albums() -> None:
         start_index += limit
         if start_index >= response["TotalRecordCount"]:
             break
+
+
+def sync_all() -> None:
+    sync_artists()
+    sync_albums()

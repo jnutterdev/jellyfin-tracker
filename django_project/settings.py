@@ -92,6 +92,8 @@ DATABASES = {
 Q_CLUSTER = {
     "name": "jellyfin_tracker",
     "orm": "default",
+    "timeout": 300,
+    "retry": 360,
 }
 
 

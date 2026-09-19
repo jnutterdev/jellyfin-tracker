@@ -6,10 +6,45 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Jellyfin Tracker</title>
-	<link rel="stylesheet" href="{% static 'tracker/style.css' %}">
+
+	<link rel="preconnect" href="https://fonts.bunny.net">
+	<link href="https://fonts.bunny.net/css?family=space-grotesk:500,600,700|inter:400,500,600" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+	<link rel="stylesheet" href="{% static 'tracker/css/normalize.css' %}">
+	<link rel="stylesheet" href="{% static 'tracker/css/style.css' %}">
 </head>
 <body>
-	{% block content %}
-	{% endblock content %}
+	<header class="site-header">
+		<span class="site-title">Jellyfin Tracker</span>
+		<nav class="site-nav">
+			<a href="{% url 'artist_list' %}">Artists</a>
+			<a href="{% url 'album_list' %}">Albums</a>
+		</nav>
+	</header>
+
+	<div class="menu-bar">
+		<form action="{% url 'sync' %}" method="post">
+			{% csrf_token %}
+			<button type="submit"><i class="fa-solid fa-rotate"></i> Sync</button>
+		</form>
+	</div>
+
+	<main>
+		{% block content %}
+		{% endblock content %}
+	</main>
+
+	<div class="page-footer-nav">
+		<nav class="breadcrumbs" aria-label="breadcrumb">
+			<a href="{% url 'artist_list' %}">Home</a>{% block breadcrumb %}{% endblock breadcrumb %}
+		</nav>
+		{% include "tracker/pagination.html#pagination" %}
+	</div>
+
+	<footer class="site-footer">
+		&copy; {% now "Y" %} Jellyfin Tracker. Developed by John Nutter.
+	</footer>
 </body>
 </html>

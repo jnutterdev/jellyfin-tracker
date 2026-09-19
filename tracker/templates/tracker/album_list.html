@@ -1,13 +1,21 @@
 {% extends "tracker/base.html" %}
 
+{% block breadcrumb %}<span aria-hidden="true"> / </span>Albums {% endblock breadcrumb %}
+
 {% block content %}
-    <h1>All artists</h1>
-     <ul>
+    <div class="list-header">
+        <h1>All albums</h1>
+        <form action="{% url 'album_list' %}" method="get" class="search-form">
+            <label for="album-search">Search album</label>
+            <input id="album-search" name="q" type="text" value="{{ request.GET.q }}">
+        </form>
+    </div>
+
+    <ul>
     {% for album in album_list %}
         <li>{{ album }}</li>
+    {% empty %}
+         <li>No album by that name.</li>
     {% endfor %}
     </ul>
-
-    {% include "tracker/pagination.html#pagination" %}
-
 {% endblock content %}
