@@ -63,7 +63,23 @@ class Playlist(BaseModel):
     slug = models.SlugField(unique=True, null=True, blank=True)
 
     class Meta:
-        ordering = [Lower("artist__name"), Lower("name")]
+        ordering = [Lower("name")]
 
     def __str__(self):
-        return f"{self.artist} - {self.name}"
+        return self.name
+
+
+class PlaylistTrack(BaseModel):
+    playlist = models.ForeignKey(
+        Playlist, on_delete=models.CASCADE, related_name="playlist_tracks"
+    )
+    track = models.ForeignKey(
+        Track, on_delete=models.CASCADE, related_name="playlist_entries"
+    )
+    position = models.IntegerField()
+
+    class Meta:
+        ordering = ["position"]
+
+    def __str__(self):
+        return f"{self.playlist} - {self.track}"
