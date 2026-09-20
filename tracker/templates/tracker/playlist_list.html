@@ -1,0 +1,27 @@
+{% extends "tracker/base.html" %}
+
+    {% block breadcrumb %}<span aria-hidden="true"> / </span>Playlists {% endblock breadcrumb %}
+
+{% block content %}
+    <div class="list-header">
+        <h1>All playlists</h1>
+        <form action="{% url 'playlist_list' %}" method="get" class="search-form">
+            <label for="playlist-search">Search playlists</label>
+            <input id="playlist-search" name="q" type="text" value="{{ request.GET.q }}">
+        </form>
+    </div>
+
+    <ul>
+    {% for playlist in playlist_list %}
+        <li>
+            <a href="{% url 'playlist_detail' playlist.slug %}">
+                {{ playlist }}
+            </a>
+        </li>
+    {% empty %}
+         <li>
+             <p>No playlists. Create one!</p>
+         </li>
+    {% endfor %}
+    </ul>
+{% endblock content %}

@@ -1,0 +1,19 @@
+{% extends "tracker/base.html" %}
+
+{% block breadcrumb %}<span aria-hidden="true"> / </span> <a href="{% url 'playlist_list' %}">Playlists</a> <span aria-hidden="true"> / </span>{{ playlist }} {% endblock breadcrumb %}
+
+{% block content %}
+<h1>{{ playlist }}</h1>
+<ul>
+{% for entry in playlist.playlist_tracks.all %}
+    <li>
+        {{ entry.track }}
+    </li>
+        {% empty %}
+    <li>
+        No tracks in this playlist yet
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}

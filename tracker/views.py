@@ -4,7 +4,7 @@ from django.views.generic import DetailView, ListView
 from django_q.tasks import async_task
 
 from .jellyfin_sync import sync_tracks_for_album
-from .models import Album, Artist
+from .models import Album, Artist, Playlist
 
 
 class ArtistListView(ListView):
@@ -43,6 +43,22 @@ class AlbumDetailView(DetailView):
         if not album.tracks.exists():
             sync_tracks_for_album(album)
         return album
+
+
+class PlaylistListView(ListView):
+    model = Playlist
+    paginate_by = 20
+
+    def get_queryset(self):
+        queryset = Playlist.objects.all()
+        query = self.request.GET.get("q")
+        if query:
+            queryset = queryset.filter(name__icontains=query)
+        return queryset
+
+
+class PlaylistDetailView(DetailView):
+    model = Playlist
 
 
 @require_POST
