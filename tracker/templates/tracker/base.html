@@ -36,15 +36,18 @@
 		{% endblock content %}
 	</main>
 
+
 	<div class="page-footer-nav">
 		<nav class="breadcrumbs" aria-label="breadcrumb">
 			<a href="{% url 'artist_list' %}">Home</a>{% block breadcrumb %}{% endblock breadcrumb %}
 		</nav>
-		{% include "tracker/pagination.html#pagination" %}
+			{% if is_paginated %}
+                {% include "tracker/pagination.html#pagination" %}
+            {% endif %}
 	</div>
 
 	<footer class="site-footer">
-		&copy; {% now "Y" %} Jellyfin Tracker. Developed by John Nutter.
+		&copy; {% now "Y" %} Jellyfin Tracker. Developed by jnutter.dev.
 	</footer>
 </body>
 </html>

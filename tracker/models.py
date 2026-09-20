@@ -9,6 +9,7 @@ class Artist(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     jellyfin_id = models.CharField(max_length=64, unique=True, db_index=True)
     name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True, blank=True)
@@ -25,6 +26,7 @@ class Album(models.Model):
     jellyfin_id = models.CharField(max_length=64, unique=True, db_index=True)
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE, related_name="albums")
     name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, null=True, blank=True)
     production_year = models.IntegerField(null=True, blank=True)
     date_added = models.DateTimeField(null=True, blank=True)  # Jellyfin's DateCreated
     created_at = models.DateTimeField(auto_now_add=True)

@@ -1,3 +1,5 @@
+from django.utils.text import slugify
+
 from .jellyfin_client import fetch_items
 from .models import Album, Artist, Track
 
@@ -9,9 +11,13 @@ def sync_artists() -> None:
     while True:
         response = fetch_items("MusicArtist", start_index, limit)
         for item in response["Items"]:
+            name = item["Name"].strip()
             Artist.objects.update_or_create(
                 jellyfin_id=item["Id"],
-                defaults={"name": item["Name"].strip()},
+                defaults={
+                    "name": name,
+                    "slug": unique_slug(Artist, slugify(name), item["Id"]),
+                },
             )
         start_index += limit
         if start_index >= response["TotalRecordCount"]:
@@ -37,10 +43,13 @@ def sync_albums() -> None:
                     defaults={"name": "Unknown Artist"},
                 )
 
+            name = item["Name"].strip()
+            artist_and_album = f"{artist.name}-{name}"
             Album.objects.update_or_create(
                 jellyfin_id=item["Id"],
                 defaults={
-                    "name": item["Name"].strip(),
+                    "name": name,
+                    "slug": unique_slug(Album, slugify(artist_and_album), item["Id"]),
                     "artist": artist,
                     "production_year": item.get("ProductionYear"),
                     "date_added": item.get("DateCreated"),
@@ -76,3 +85,9 @@ def sync_tracks_for_album(album: Album) -> None:
                 "container": item.get("Container"),
             },
         )
+
+
+def unique_slug(model, base_slug: str, jellyfin_id: str) -> str:
+    if model.objects.filter(slug=base_slug).exclude(jellyfin_id=jellyfin_id).exists():
+        return f"{base_slug}-{jellyfin_id[:8]}"
+    return base_slug

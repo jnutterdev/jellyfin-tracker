@@ -4,6 +4,23 @@ Three related features, meant to be tackled in order since each builds on the
 last: tracks must exist locally before playlists can reference them, and
 playlists must exist before there's anything to export.
 
+## Also deferred: expand the API (`apis/` app)
+
+Currently `apis/` only exposes a flat `/api/` list of artists (`id`,
+`jellyfin_id`, `name` — no albums or tracks). Decided direction for later:
+**both** nested and flat access, done mainly for practice rather than
+strict necessity:
+
+- Keep `/api/` (artists) but nest each artist's albums inline (and each
+  album's tracks, once synced), for convenience — one request gets an
+  artist's whole picture.
+- Also add separate `/api/albums/` and `/api/tracks/` flat endpoints
+  (own serializers/views) for direct, REST-conventional access.
+
+Needs new `AlbumSerializer` (nested inside `ArtistSerializer` via
+`albums = AlbumSerializer(many=True, read_only=True)`) and `TrackSerializer`,
+plus `AlbumAPIView`/`TrackAPIView` and matching `apis/urls.py` entries.
+
 ## 1. Album Detail Page (Track List)
 
 **Goal:** clicking an album shows its track list.

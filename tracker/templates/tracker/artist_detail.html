@@ -1,0 +1,15 @@
+{% extends "tracker/base.html" %}
+
+{% block breadcrumb %}<span aria-hidden="true"> / </span> <a href="{% url 'artist_list' %}">Artists</a> <span aria-hidden="true"> / </span>{{ album }} {% endblock breadcrumb %}
+
+{% block content %}
+<h1>{{ artist }}</h1>
+<ul>
+    {% for album in artist.albums.all %}
+        <li>
+            <a href="{% url 'album_detail' album.slug  %}">{{ album }}</a>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}

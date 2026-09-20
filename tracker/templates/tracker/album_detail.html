@@ -1,5 +1,7 @@
 {% extends "tracker/base.html" %}
 
+{% block breadcrumb %}<span aria-hidden="true"> / </span> <a href="{% url 'album_list' %}">Albums</a> <span aria-hidden="true"> / </span>{{ album }} {% endblock breadcrumb %}
+
 {% block content %}
 <h1>{{ album }}</h1>
 <ul>
@@ -9,4 +11,5 @@
     </li>
     {% endfor %}
 </ul>
+
 {% endblock content %}

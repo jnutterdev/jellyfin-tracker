@@ -19,6 +19,10 @@ class ArtistListView(ListView):
         return queryset
 
 
+class ArtistDetailView(DetailView):
+    model = Artist
+
+
 class AlbumListView(ListView):
     paginate_by = 20
     model = Album
